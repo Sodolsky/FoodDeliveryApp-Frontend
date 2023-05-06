@@ -1,4 +1,4 @@
-export type userTypes = "Restaurant" | "Delivery" | "User";
+export type userTypes = "RESTAURANT" | "DELIVERY" | "CUSTOMER";
 export interface loginFormInteface {
   login: string;
   password: string;

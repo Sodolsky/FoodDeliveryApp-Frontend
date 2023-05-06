@@ -2,18 +2,17 @@
 import { FormEvent, useEffect, useState } from "react";
 import { registerInterface } from "../../../utils/interfaces";
 import { toast } from "react-toastify";
-import Image from "next/image";
-import Link from "next/link";
 import { BackArrow } from "../BackArrow";
 const baseLoginFormData: registerInterface = {
   login: "",
   password: "",
   confirmPassword: "",
-  role: "User",
+  role: "CUSTOMER",
 };
 export const RegisterForm = () => {
   const [formData, setformData] =
     useState<registerInterface>(baseLoginFormData);
+  console.log(formData);
   const [playAniamtion, setplayAniamtion] = useState<boolean>(false);
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -82,10 +81,14 @@ export const RegisterForm = () => {
       </div>
       <div className="flex flex-col justify-center items-center border-2 border-dashed rounded-xl p-2">
         <label className="label text-sm">Role</label>
-        <select className="select" onChange={(e) => handleChange(e)}>
-          <option value="User">User</option>
-          <option value="Restaurant">Restaurant</option>
-          <option value="Delivery">Delivery</option>
+        <select
+          className="select"
+          name="role"
+          onChange={(e) => handleChange(e)}
+        >
+          <option value="CUSTOMER">Customer</option>
+          <option value="RESTAURANT">Restaurant</option>
+          <option value="DELIVERY">Delivery</option>
         </select>
       </div>
       <button className="btn btn-primary">Sign Up</button>
