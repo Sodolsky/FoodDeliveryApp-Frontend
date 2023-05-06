@@ -4,6 +4,6 @@ export interface loginFormInteface {
   password: string;
 }
 export interface registerInterface extends loginFormInteface {
-  confirmLogin: string;
+  confirmPassword: string;
   role: userTypes;
 }

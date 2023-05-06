@@ -1,6 +1,8 @@
 "use client";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { loginFormInteface } from "../../../utils/interfaces";
+import { toast } from "react-toastify";
+import { BackArrow } from "../BackArrow";
 const baseLoginFormData: loginFormInteface = {
   login: "",
   password: "",
@@ -8,6 +10,7 @@ const baseLoginFormData: loginFormInteface = {
 export const LoginForm = () => {
   const [formData, setformData] =
     useState<loginFormInteface>(baseLoginFormData);
+  const [playAnimation, setplayAnimation] = useState<boolean>(false);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
     setformData((prev) => {
@@ -17,17 +20,23 @@ export const LoginForm = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (formData.login.length === 0 || formData.password.length === 0)
-      return alert("Fill out your form");
+      return toast.error("Fill out your form");
     if (formData.password.length < 8)
-      return alert("Provide us with a password of length longer than 8");
+      return toast.error("Provide us with a password of length longer than 8");
     //TODO Dodać HTTP requesta na backend
     console.log("Succeess");
   };
+  useEffect(() => {
+    setplayAnimation(true);
+  }, []);
   return (
     <form
-      className="p-6 bg-white rounded-lg border-black shadow-xl flex flex-col justify-center gap-2 items-center "
+      className={`-translate-y-full ${
+        playAnimation && "-translate-y-0"
+      } duration-500 transition-all  relative p-6 bg-white rounded-lg border-black shadow-xl flex flex-col justify-center gap-2 items-center `}
       onSubmit={handleSubmit}
     >
+      <BackArrow />
       <span className="text-2xl font-bold">Login</span>
       <div className="form-control">
         <label className="label text-sm">Username: </label>
