@@ -45,8 +45,8 @@ export const RegisterForm = () => {
   return (
     <form
       className={`translate-y-full relative ${
-        playAniamtion && `translate-y-0`
-      } duration-500 transition-all p-6 bg-white rounded-lg border-black shadow-xl flex flex-col justify-center gap-2 items-center `}
+        playAniamtion && `!translate-y-0`
+      } duration-500 ease-out transition-all p-6 bg-white rounded-lg border-black shadow-xl flex flex-col justify-center gap-2 items-center `}
       onSubmit={handleSubmit}
     >
       <BackArrow />

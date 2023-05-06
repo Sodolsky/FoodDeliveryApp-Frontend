@@ -26,14 +26,15 @@ export const LoginForm = () => {
     //TODO Dodać HTTP requesta na backend
     console.log("Succeess");
   };
+  console.log(playAnimation);
   useEffect(() => {
     setplayAnimation(true);
   }, []);
   return (
     <form
-      className={`-translate-y-full ${
-        playAnimation && "-translate-y-0"
-      } duration-500 transition-all  relative p-6 bg-white rounded-lg border-black shadow-xl flex flex-col justify-center gap-2 items-center `}
+      className={`transition-all ${
+        playAnimation && "!-translate-y-0"
+      } -translate-y-full ease-out duration-500  relative p-6 bg-white rounded-lg border-black shadow-xl flex flex-col justify-center gap-2 items-center `}
       onSubmit={handleSubmit}
     >
       <BackArrow />
