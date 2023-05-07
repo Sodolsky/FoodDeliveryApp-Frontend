@@ -1,11 +1,32 @@
 "use client";
 import { FormEvent, useEffect, useState } from "react";
-import { loginFormInteface } from "../../../utils/interfaces";
+import {
+  backendLoginDataFormat,
+  backendLoginResponse,
+  loginFormInteface,
+} from "../../../utils/interfaces";
 import { toast } from "react-toastify";
 import { BackArrow } from "../BackArrow";
 const baseLoginFormData: loginFormInteface = {
   login: "",
   password: "",
+};
+const authUser = async (
+  formData: loginFormInteface
+): Promise<void | backendLoginResponse> => {
+  try {
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+    const userData: backendLoginDataFormat = {
+      username: formData.login,
+      password: formData.password,
+    };
+    const query = await fetch(`${backendUrl}/login`, {
+      method: "POST",
+      body: JSON.stringify(userData),
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 export const LoginForm = () => {
   const [formData, setformData] =
@@ -24,9 +45,8 @@ export const LoginForm = () => {
     if (formData.password.length < 8)
       return toast.error("Provide us with a password of length longer than 8");
     //TODO Dodać HTTP requesta na backend
-    console.log("Succeess");
+    authUser(formData);
   };
-  console.log(playAnimation);
   useEffect(() => {
     setplayAnimation(true);
   }, []);

@@ -1,6 +1,9 @@
 "use client";
 import { FormEvent, useEffect, useState } from "react";
-import { registerInterface } from "../../../utils/interfaces";
+import {
+  backendRegisterDataFormat,
+  registerInterface,
+} from "../../../utils/interfaces";
 import { toast } from "react-toastify";
 import { BackArrow } from "../BackArrow";
 const baseLoginFormData: registerInterface = {
@@ -9,10 +12,26 @@ const baseLoginFormData: registerInterface = {
   confirmPassword: "",
   role: "CUSTOMER",
 };
+const registerUser = async (formData: registerInterface): Promise<void> => {
+  try {
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+    const userData: backendRegisterDataFormat = {
+      username: formData.login,
+      password: formData.password,
+      role: formData.role,
+    };
+    const request = await fetch(`${backendUrl}/register`, {
+      method: "POST",
+      body: JSON.stringify(userData),
+    });
+    console.log(request);
+  } catch (error) {
+    console.log(error);
+  }
+};
 export const RegisterForm = () => {
   const [formData, setformData] =
     useState<registerInterface>(baseLoginFormData);
-  console.log(formData);
   const [playAniamtion, setplayAniamtion] = useState<boolean>(false);
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -36,7 +55,7 @@ export const RegisterForm = () => {
       return toast.error("Your provided passwords aren't the same!");
     }
     //TODO Dodać HTTP requesta na backend
-    console.log("Succeess");
+    registerUser(formData);
   };
   useEffect(() => {
     setplayAniamtion(true);
@@ -51,7 +70,7 @@ export const RegisterForm = () => {
       <BackArrow />
       <span className="text-2xl font-bold">Register</span>
       <div className="form-control">
-        <label className="label text-sm text-gray-500">Email: </label>
+        <label className="label text-sm text-gray-500">Username: </label>
         <input
           type="text"
           onChange={(e) => handleChange(e)}
