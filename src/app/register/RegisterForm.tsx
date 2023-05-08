@@ -21,6 +21,9 @@ const registerUser = async (formData: registerInterface): Promise<void> => {
       role: formData.role,
     };
     const request = await fetch(`${backendUrl}/register`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
       method: "POST",
       body: JSON.stringify(userData),
     });

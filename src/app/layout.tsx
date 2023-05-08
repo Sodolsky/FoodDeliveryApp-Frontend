@@ -1,13 +1,13 @@
 import "./globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import { Inter } from "next/font/google";
-import { ToastComponent } from "@/ToastComponent";
+import { ToastComponent } from "./ToastComponent";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "GrubHub Clone",
-  description: "Grubhub Clone",
+  title: "Food Delivery App",
+  description: "Food Delivery app",
 };
 
 export default function RootLayout({

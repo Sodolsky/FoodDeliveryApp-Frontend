@@ -21,6 +21,9 @@ const authUser = async (
       password: formData.password,
     };
     const query = await fetch(`${backendUrl}/login`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
       method: "POST",
       body: JSON.stringify(userData),
     });
@@ -42,8 +45,6 @@ export const LoginForm = () => {
     e.preventDefault();
     if (formData.login.length === 0 || formData.password.length === 0)
       return toast.error("Fill out your form");
-    if (formData.password.length < 8)
-      return toast.error("Provide us with a password of length longer than 8");
     //TODO Dodać HTTP requesta na backend
     authUser(formData);
   };
@@ -60,7 +61,7 @@ export const LoginForm = () => {
       <BackArrow />
       <span className="text-2xl font-bold">Login</span>
       <div className="form-control">
-        <label className="label text-sm">Username: </label>
+        <label className="label text-sm text-gray-500">Username: </label>
         <input
           type="text"
           onChange={(e) => handleChange(e)}
@@ -69,7 +70,7 @@ export const LoginForm = () => {
         />
       </div>
       <div className="form-control">
-        <label className="label text-sm">Password: </label>
+        <label className="label text-sm text-gray-500">Password: </label>
         <input
           type="password"
           onChange={(e) => handleChange(e)}

@@ -1,7 +1,8 @@
 import FoodGif from "../../public/food.gif";
 import Image from "next/image";
-import { Oswald } from "next/font/google";
-const oswald = Oswald({ weight: "600", subsets: ["latin"] });
+import { Oswald, Roboto_Mono } from "next/font/google";
+import { OrderButton } from "./OrderButton";
+const oswald = Roboto_Mono({ weight: "600", subsets: ["latin"] });
 export const GifCircle = () => {
   return (
     <div className="absolute md:left-1/4 mx-auto top-1/3 flex justify-center items-center md:flex-row flex-col gap-4">
@@ -15,11 +16,19 @@ export const GifCircle = () => {
           className="rounded-full"
         />
       </div>
-      <span
-        className={`md:self-end text-center md:text-left ${oswald.className} text-4xl text-primary`}
-      >
-        Order your food blazingly fast 🔥
-      </span>
+      <div className={`md:self-end text-center md:text-left`}>
+        <div
+          className={`${oswald.className} flex flex-col justify-center items-center gap-2 `}
+        >
+          <span className={`text-4xl text-primary`}>
+            Order your food blazingly fast 🔥
+          </span>
+          <span className="flex gap-12 justify-center items-center flex-wrap">
+            <OrderButton href={"/login"} text={"Order Now!"} />
+            <OrderButton href={"/register"} text={"Try it Now!"} />
+          </span>
+        </div>
+      </div>
     </div>
   );
 };
