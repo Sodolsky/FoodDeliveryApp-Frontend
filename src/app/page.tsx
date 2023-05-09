@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { backendLoginResponse } from "../../utils/interfaces";
 import { GifCircle } from "./GifCircle";
 import { Navbar } from "./Navbar";
 

@@ -3,6 +3,9 @@ export interface loginFormInteface {
   login: string;
   password: string;
 }
+export interface authErrorObject {
+  reason: string;
+}
 export interface registerInterface extends loginFormInteface {
   confirmPassword: string;
   role: userTypes;
@@ -10,7 +13,7 @@ export interface registerInterface extends loginFormInteface {
 export interface backendLoginResponse {
   accessToken: string;
   tokenType: string;
-  role: string;
+  role: userTypes;
 }
 export interface backendLoginDataFormat {
   username: string;
