@@ -19,7 +19,7 @@ export const Views = () => {
         setisLoading(false);
       }
     }
-  }, [window]);
+  }, []);
   return !isLoading ? (
     <div> {role}</div>
   ) : (
