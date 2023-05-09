@@ -10,7 +10,7 @@ export const Views = () => {
   const [role, setRole] = useState<userTypes>("CUSTOMER");
   const router = useRouter();
   useEffect(() => {
-    if (window.localStorage) {
+    if (typeof window !== undefined) {
       const userRole = window.localStorage.getItem("auth");
       if (!userRole) router.push("/");
       else {
