@@ -10,12 +10,13 @@ import { toast } from "react-toastify";
 import { BackArrow } from "../BackArrow";
 import { Spinner } from "@/Spinner";
 import { useRouter } from "next/navigation";
+import { useProtectedRoute } from "../../../utils/hooks/useProtectedRoute";
 const baseLoginFormData: loginFormInteface = {
   login: "",
   password: "",
 };
 
-const authUser = (
+export const authUser = (
   formData: loginFormInteface
 ): Promise<authErrorObject | backendLoginResponse> => {
   return new Promise(async (resolve, reject) => {
@@ -51,6 +52,8 @@ const authUser = (
 };
 
 export const LoginForm = () => {
+  const { isAuthorized } = useProtectedRoute(true, "/view");
+
   const router = useRouter();
   const [formData, setformData] =
     useState<loginFormInteface>(baseLoginFormData);
@@ -82,6 +85,9 @@ export const LoginForm = () => {
   useEffect(() => {
     setplayAnimation(true);
   }, []);
+  if (isAuthorized) {
+    return <Spinner />;
+  }
   return (
     <>
       <form

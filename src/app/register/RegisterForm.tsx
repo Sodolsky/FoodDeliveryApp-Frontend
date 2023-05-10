@@ -3,11 +3,15 @@ import { FormEvent, useEffect, useState } from "react";
 import {
   authErrorObject,
   backendRegisterDataFormat,
+  loginFormInteface,
   registerInterface,
 } from "../../../utils/interfaces";
 import { toast } from "react-toastify";
 import { BackArrow } from "../BackArrow";
 import { Spinner } from "@/Spinner";
+import { authUser } from "../login/LoginForm";
+import { useRouter } from "next/navigation";
+import { useProtectedRoute } from "../../../utils/hooks/useProtectedRoute";
 const baseLoginFormData: registerInterface = {
   login: "",
   password: "",
@@ -15,8 +19,8 @@ const baseLoginFormData: registerInterface = {
   role: "CUSTOMER",
 };
 //TODO Change string here to backend response with login
-const registerUser = (formData: registerInterface): Promise<void | string> => {
-  return new Promise(async (resolve, reject) => {
+const registerUser = (formData: registerInterface): Promise<string> => {
+  return new Promise<string>(async (resolve, reject) => {
     try {
       const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
       const userData: backendRegisterDataFormat = {
@@ -24,22 +28,29 @@ const registerUser = (formData: registerInterface): Promise<void | string> => {
         password: formData.password,
         role: formData.role,
       };
-      const request = await fetch(`${backendUrl}/register`, {
+      const response = await fetch(`${backendUrl}/register`, {
         headers: {
           "Content-Type": "application/json",
         },
         method: "POST",
         body: JSON.stringify(userData),
       });
-      const res = await request.json();
-      resolve(res); //Resolve promise here
+      const text = await response.text(); // Get the plain text from the response
+
+      if (response.ok) {
+        resolve(text);
+      } else {
+        reject(text);
+      }
     } catch (error) {
-      reject(error); //Reject promise here
+      reject(error);
     }
   });
 };
 
 export const RegisterForm = () => {
+  const router = useRouter();
+  const { isAuthorized } = useProtectedRoute(true, "/view");
   const [formData, setformData] =
     useState<registerInterface>(baseLoginFormData);
   const [playAniamtion, setplayAniamtion] = useState<boolean>(false);
@@ -68,10 +79,21 @@ export const RegisterForm = () => {
     }
     setisLoading(true);
     try {
-      const res = await registerUser(formData);
-      console.log(res);
+      await registerUser(formData);
+      const loginData: loginFormInteface = {
+        login: formData.login,
+        password: formData.password,
+      };
+      const authObject = await authUser(loginData);
+      localStorage.setItem("auth", JSON.stringify(authObject));
+      router.push("view");
     } catch (error) {
-      console.log(error);
+      const possibleLoginError = error as authErrorObject;
+      if (possibleLoginError.reason) {
+        toast.error(possibleLoginError.reason);
+      } else {
+        toast.error("User with that name already exists!");
+      }
     } finally {
       setisLoading(false);
     }
@@ -79,6 +101,9 @@ export const RegisterForm = () => {
   useEffect(() => {
     setplayAniamtion(true);
   }, []);
+  if (isAuthorized) {
+    return <Spinner />;
+  }
   return (
     <>
       <form
