@@ -6,6 +6,7 @@ import { backendLoginResponse } from "../interfaces";
 interface UseProtectedRouteResult {
   isAuthorized: boolean;
 }
+//? if isReversed is true that means that the route will be only available when user is not logged in
 export function useProtectedRoute(
   isReversed: boolean,
   route: string = "/"
