@@ -94,13 +94,14 @@ export const RegisterForm = () => {
       } else {
         toast.error("User with that name already exists!");
       }
-    } finally {
       setisLoading(false);
     }
   };
   useEffect(() => {
-    setplayAniamtion(true);
-  }, []);
+    if (!isAuthorized) {
+      setplayAniamtion(true);
+    }
+  }, [isAuthorized]);
   if (isAuthorized) {
     return <Spinner />;
   }

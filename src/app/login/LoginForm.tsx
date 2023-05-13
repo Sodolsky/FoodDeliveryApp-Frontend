@@ -11,6 +11,7 @@ import { BackArrow } from "../BackArrow";
 import { Spinner } from "@/Spinner";
 import { useRouter } from "next/navigation";
 import { useProtectedRoute } from "../../../utils/hooks/useProtectedRoute";
+import { cookies } from "next/dist/client/components/headers";
 const baseLoginFormData: loginFormInteface = {
   login: "",
   password: "",
@@ -78,13 +79,14 @@ export const LoginForm = () => {
     } catch (error) {
       const typedError = error as authErrorObject;
       toast.error(typedError.reason);
-    } finally {
       setIsLoading(false);
     }
   };
   useEffect(() => {
-    setplayAnimation(true);
-  }, []);
+    if (!isAuthorized) {
+      setplayAnimation(true);
+    }
+  }, [isAuthorized]);
   if (isAuthorized) {
     return <Spinner />;
   }
