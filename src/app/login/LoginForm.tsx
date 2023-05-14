@@ -95,7 +95,7 @@ export const LoginForm = () => {
       <form
         className={`transition-all ${isLoading && "blur-md"} ${
           playAnimation && "!-translate-y-0"
-        } -translate-y-full ease-out duration-500   p-6 bg-white rounded-lg border-black shadow-xl flex flex-col justify-center gap-2 items-center `}
+        } -translate-y-full ease-out duration-500  p-6 bg-white rounded-lg border-black shadow-xl flex flex-col justify-center gap-2 items-center `}
         onSubmit={handleSubmit}
       >
         <BackArrow />
